@@ -13,6 +13,8 @@ R = 0.08206
 pressao_atmosferica = 101.3
 densidade_agua = 1000
 
+aceleracao_gravidade = 9.80665
+
 # 2. Mensagem inicial:
 print()
 print("Bem vindo ao PressureLab, aqui você poderá estimar a pressão do seu foguete!")
@@ -31,6 +33,7 @@ pureza = float(input("Pureza do bicarbonato (%): "))
 print()
 
 volume_garrafa = float(input("Volume da garrafa (L): "))
+peso_foguete = float(input("Peso do foguete (g): "))
 diametro_tubeira = float(input("Diametro da tubeira (mm): "))
 print()
 
@@ -106,7 +109,30 @@ vazao_massica = densidade_agua * area_tubeira_metros * velocidade_agua
 empuxo = vazao_massica * velocidade_agua
 empuxo_kgf = empuxo / 9.807
 
-# 15 . Resultados
+# 15. Força peso:
+massa_foguete_kg = peso_foguete / 1000
+massa_bicarbonato_kg = bicarbonato_g / 1000
+massa_vinagre_kg = vinagre_ml / 1000
+
+massa_total_inicial = massa_foguete_kg + massa_vinagre_kg + massa_bicarbonato_kg
+
+forca_peso = massa_total_inicial * aceleracao_gravidade
+
+# 16. Força resultante:
+forca_resultante = empuxo - forca_peso
+
+# 17. Aceleração:
+aceleracao = forca_resultante / massa_total_inicial
+
+# 18. Tempo de propulsão:
+h2o_total = ((vinagre_ml - massa_acido_acetico) + massa_h2o) / 1000
+tempo_propulsao = h2o_total / vazao_massica
+
+# 19 Velocidade ao final da propulsão:
+velocidade_final_propulsao = aceleracao * tempo_propulsao
+velocidade_final_propulsao_kmh = velocidade_final_propulsao * 3.6
+
+# 20 . Resultados
 print("Resultados Químicos:")
 print()
 
@@ -173,3 +199,23 @@ print()
 print("Empuxo estimado:")
 print(f"• N: {empuxo:.3f} N")
 print(f"• kgf: {empuxo_kgf:.3f} kgf")
+print()
+
+print("Resultados de Desempenho")
+print()
+
+print(f"Força peso do foguete: {forca_peso:.3f} N")
+print()
+
+print(f"Força resultante: {forca_resultante:.3f} N")
+print()
+
+print(f"Aceleração inicial: {aceleracao:.3f} m/s²")
+print()
+
+print(f"Tempo de propulsão: {tempo_propulsao:.3f} s")
+print()
+
+print("Velocidade final estimada:")
+print(f"• m/s: {velocidade_final_propulsao:.3f} m/s")
+print(f"• km/h: {velocidade_final_propulsao_kmh:.3f} km/h")
