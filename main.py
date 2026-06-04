@@ -1,10 +1,13 @@
 # PressureLab
+import math
 
 # 1. Constantes:
 massa_molar_acido_acetico = 60.052
 massa_molar_bicarbonato = 84.007
 massa_molar_gas_carbonico = 44.009
 R = 0.08206
+pressao_atmosferica = 101.3
+densidade_agua = 1000
 
 # 2. Mensagem inicial:
 print()
@@ -24,6 +27,7 @@ pureza = float(input("Pureza do bicarbonato (%): "))
 print()
 
 volume_garrafa = float(input("Volume da garrafa (L): "))
+diametro_tubeira = float(input("Diametro da tubeira (mm): "))
 print()
 
 # 4. Cálculo inicial:
@@ -63,8 +67,27 @@ elif pressao_psi <= 150:
 else:
     aviso = "Pressão muito alta. Verifique cuidadosamente a resistência do sistema."
 
-# 8. Resultados
-print("Resultados:")
+# 8. Diferença de pressão:
+diferenca_pressao_kpa = pressao_kpa - pressao_atmosferica
+delta_p = diferenca_pressao_kpa * 1000
+
+# 9. Velocidade da água:
+velocidade_agua = math.sqrt((2*delta_p)/densidade_agua)
+velocidade_agua_kmh = velocidade_agua * 3.6
+
+# 10. Área da tubeira:
+area_tubeira_milimetros  = math.pi * ((diametro_tubeira / 2) ** 2)
+area_tubeira_metros = area_tubeira_milimetros / 1000000
+
+# 11. Vazão mássica:
+vazao_massica = densidade_agua * area_tubeira_metros * velocidade_agua
+
+# 12. Empuxo:
+empuxo = vazao_massica * velocidade_agua
+empuxo_kgf = empuxo / 9.807
+
+# 13 . Resultados
+print("Resultados Químicos:")
 print()
 
 print(f"Mols de ácido acético: {mols_acido_acetico:.3f} mol")
@@ -76,8 +99,11 @@ print(f"Reagente em excesso: {reagente_excesso}")
 print(f"Massa de reagente em excesso: {excesso:.3f}")
 print()
 
-print(f"CO₂ produzido: {massa_co2:.3f} gramas")
-print(f"CO₂ produzido: {mols_co2:.3f} mol")
+print(f"Massa de CO₂ produzido: {massa_co2:.3f} gramas")
+print(f"Mols de CO₂ produzido: {mols_co2:.3f} mols")
+print()
+
+print("Resultados de Pressão:")
 print()
 
 print("Pressão estimada:")
@@ -87,3 +113,29 @@ print(f"• psi: {pressao_psi:.3f} psi")
 print()
 
 print(f"Avaliação: {aviso}")
+print()
+
+print("Diferença aproximada de pressão:")
+print(f"• kPa: {diferenca_pressao_kpa:.3f} kPa")
+print(f"• Pa: {delta_p:.3f} Pa")
+print()
+
+print("Resultados de Propulsão")
+print()
+
+print(f"Velocidade estimada da água:")
+print(f"• m/s: {velocidade_agua:.3f} m/s")
+print(f"• km/h: {velocidade_agua_kmh:.3f} km/h")
+print()
+
+print(f"Área aproximada da tubeira:")
+print(f"• mm²: {area_tubeira_milimetros:.3f} mm²")
+print(f"• m²: {area_tubeira_metros:.6f} m²")
+print()
+
+print(f"Vazão mássica: {vazao_massica:.3f} kg/s")
+print()
+
+print("Empuxo estimado:")
+print(f"• N: {empuxo:.3f} N")
+print(f"• kgf: {empuxo_kgf:.3f} kgf")
